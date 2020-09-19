@@ -1,15 +1,25 @@
-import { applyMiddleware, createStore, Store } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, compose } from 'redux'
+import { applyMiddleware } from 'redux-subspace'
+import createSagaMiddleware from 'redux-subspace-saga'
+const dynostore = require('@redux-dynostore/core').default;
+const dynamicReducers = require('@redux-dynostore/core').dynamicReducers;
+const dynamicSagas = require('@redux-dynostore/redux-saga').dynamicSagas;
 
-import { rootReducer, RootState } from '../reducers';
+//import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from '../reducers';
 
-const configureStore = (initialState?: RootState): Store<RootState | undefined> => {
-    const middlewares: any[] = [];
-    const enhancer = composeWithDevTools(applyMiddleware(...middlewares));
-    return createStore(rootReducer, initialState, enhancer);
-};
+const sagaMiddleware = createSagaMiddleware();
 
-const store = configureStore();
+const store = createStore(rootReducer, compose(
+  applyMiddleware(sagaMiddleware),
+  dynostore(
+    dynamicReducers(),
+    dynamicSagas(sagaMiddleware)
+  )
+));
+
+//console.log("Create store", store.getState());
+store.subscribe(()=>console.log("Store changed:", store.getState()));
 
 if (typeof module.hot !== 'undefined') {
     module.hot.accept('../reducers', () =>

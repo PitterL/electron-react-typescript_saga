@@ -1,11 +1,26 @@
-import { combineReducers } from 'redux';
+/*
+ * RootReducer
+ *
+ * The reducer takes care of our data. Using actions, we can change our
+ * application state.
+ * To add a new action, add it to the switch statement in the reducer function
+ *
+ * Example:
+ * case YOUR_ACTION_CONSTANT:
+ *   return state.set('yourStateVariable', true);
+ */
+import { fromJS } from 'immutable';
 
-import { CounterState, counterReducer } from './counterReducer';
+// The initial state of the App
+const initialState = fromJS({
+});
 
-export interface RootState {
-    counter: CounterState;
+function rootReducer(state = initialState, action: any) {
+  switch (action.type) {
+    default:
+      return state;
+  }
 }
 
-export const rootReducer = combineReducers<RootState | undefined>({
-    counter: counterReducer
-});
+//export default combineReducers({root: rootReducer});
+export default rootReducer;
