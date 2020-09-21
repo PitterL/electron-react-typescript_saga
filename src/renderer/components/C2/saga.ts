@@ -1,18 +1,21 @@
-import { take, put, call, apply, fork, select, delay } from 'redux-saga/effects'
+import { take, put, fork } from 'redux-saga/effects'
 
 import { set } from './slices';
-import { set as c1set} from '../C1/slices';
+import { createAction } from '../utils/actionHelper';
+import { ASYNC_SET_VALUE } from './constants';
 
+/* async set action */
+export function asyncSet(value: number) {
+  return createAction(ASYNC_SET_VALUE, { value });
+}
 
-function *watchDispatcher(/*dispatch: Function*/) {
+/* the content of 'set' operation */
+function *watchSetDispatcher() {
   while (true) {
     try {
       // An error from socketChannel will cause the saga jump to the catch block
-      let action = yield take(set.type);
-      console.log("saga get", action);
-      yield put(action);
-      //yield put(c1set({value: action.payload.value}));
-      // dispatch(action);
+      let action = yield take(ASYNC_SET_VALUE);
+      yield put(set({value: action.payload.value}));
     } catch(err) {
       console.error('saga error:', err)
       // socketChannel is still open in catch block
@@ -22,6 +25,5 @@ function *watchDispatcher(/*dispatch: Function*/) {
 }
 
 export default function *sagaData() {
-  // console.log("arguments", arguments, store);
-  yield fork(watchDispatcher);
+  yield fork(watchSetDispatcher);
 }

@@ -33,6 +33,7 @@ class ApplicationPage extends React.Component<AppPageProps, AppPageState> {
         return (
           <div>
             <PlusMinusContainer />
+            <p> -----------------------------</p>
             <MultiplyDivContainer />
           </div>
         )

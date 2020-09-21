@@ -17,14 +17,15 @@ export const appSlice = createSlice({
       // immutable state based off those changes
 
     increment: (state) => {
-      console.log(MODULE_NAME, "reducers","increment", state.value);
+      // console.log(MODULE_NAME, "c1 reducers","increment", state.value);
       state.value++;
     },
     decrement: (state) => {
-      console.log(MODULE_NAME, "reducers", "decrement", state.value);
+      // console.log(MODULE_NAME, "c1 reducers", "decrement", state.value);
       state.value--;
     },
     set: (state, action) => {
+      console.log(MODULE_NAME, "reducers","set", action);
       state.value = action.payload.value;
     }
   }

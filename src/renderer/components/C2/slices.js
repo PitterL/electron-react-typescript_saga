@@ -22,6 +22,7 @@ export const appSlice = createSlice({
       state.value >>= 1;
     },
     set: (state, action) => {
+      console.log(MODULE_NAME, "reducers","set", action);
       state.value = action.payload.value;
     }
   }

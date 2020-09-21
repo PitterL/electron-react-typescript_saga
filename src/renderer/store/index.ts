@@ -23,7 +23,7 @@ store.subscribe(()=>console.log("Store changed:", store.getState()));
 
 if (typeof module.hot !== 'undefined') {
     module.hot.accept('../reducers', () =>
-        store.replaceReducer(require('../reducers').rootReducer)
+        store.replaceReducer(require('../reducers').default)
     );
 }
 

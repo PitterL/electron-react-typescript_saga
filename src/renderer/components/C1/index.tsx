@@ -5,10 +5,10 @@ import { createStructuredSelector } from 'reselect';
 const dynamic = require('@redux-dynostore/react-redux').default;
 const attachReducer = require('@redux-dynostore/core').attachReducer;
 const runSaga = require('@redux-dynostore/redux-saga').runSaga;
-import saga from './saga';
+import saga, { asyncSet } from './saga';
 
 import reducer, { 
-    increment, decrement, set,
+    increment, decrement,
     makeSelectCountValue as makeSelectCount1Value
  } from './slices';
 
@@ -24,6 +24,7 @@ interface CountPageProps {
     decrement: Function;
     multiply2: Function;
     div2: Function;
+    asyncSet: Function;
 
     c1Value: number;
     c2Value: number;
@@ -54,27 +55,32 @@ class Count1Page extends React.Component<CountPageProps, CountPageState> {
         e.persist();
         let value = Number(e.target.value);
         if (!isNaN(value))
-            this.props.set(value);
+            this.props.asyncSet(value);
     }
 
     render() {
         // console.log(this.constructor.name, "render", this.props, this.state);
+
         return (
             <div className="counter">
-                <p id="counter-value">Current counter value: {this.props.c1Value} {this.props.c2Value} </p>
+                <p id="counter-value">This is C1 content. </p>
+                <p id="counter-value">C1={this.props.c1Value} C2={this.props.c2Value} </p>
                 <p>
+                    C1:
                     <button id="increment" onClick={this.incrementValue}>
-                        Increment
+                        increment
                     </button>
                     <button id="decrement" onClick={this.decrementValue}>
-                        Decrement
+                        decrement
                     </button>
+                    C2:
                     <button id="multiply" onClick={this.multiply2Value}>
-                        Multiply
+                        multiply
                     </button>
                     <button id="div2" onClick={this.div2Value}>
-                        Div
+                        divide
                     </button>
+                    [set C1]
                     <input id="set" onChange={this.inputValue} />
                 </p>
             </div>);
@@ -87,7 +93,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         decrement: () => dispatch(decrement()),
         multiply2: () => dispatch(multiply2()),
         div2: () => dispatch(div2()),
-        set: (value: number) => dispatch(set({value})),
+        asyncSet: (value: number) => dispatch(asyncSet(value)),
     };
 }
   
