@@ -17,7 +17,7 @@
 Clone the repository with Git:
 
 ```bash
-git clone --depth=1 git@github.com:PitterL/electron-react-typescript_sag.git <your-project-name>
+git clone --depth=1 git@github.com:PitterL/electron-react-typescript_saga.git <your-project-name>
 ```
 
 And then install the dependencies:
